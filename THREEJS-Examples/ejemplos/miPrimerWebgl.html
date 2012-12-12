@@ -24,9 +24,9 @@
 		<a onclick="directlight.position.set(1, 1, 0).normalize();">right</a> |
 		<a onclick="directlight.position.set(0, 1, 1).normalize();">left</a> | <br/>
 		Materials: 
-		<a onclick="directlight.position.set(0, 1, 0).normalize();">...</a> |
-		<a onclick="directlight.position.set(1, 1, 0).normalize();">...</a> |
-		<a onclick="directlight.position.set(0, 1, 1).normalize();">...</a> | <br/>
+		<a onclick="changeMaterial('0x0000bb', 100);">Mucho Brillo y Azul</a> |
+		<a onclick="changeMaterial('0xda30ff', 10);">Opaco y Rosado</a> |
+		<a onclick="changeMaterial('0x1fff58', 50);">Brillo y Verde</a> | <br/>
 		Timer:
 		<a onclick="speed = -0.002 ;">faster</a> |
 		<a onclick="speed = -0.00002 ;">slower</a> |<br/>
@@ -42,10 +42,10 @@
 		<script>
 
 			var container, stats;
-			var camera, scene, renderer, speed;
+			var camera, scene, renderer, speed, mesh;
 			var lightmesh, pointlight, ambientlight, directlight;
 			var mouseX = 0, mouseY = 0;
-
+			
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 			
@@ -68,10 +68,10 @@
 				// lights 
 				pointlight = new THREE.PointLight(0xFFFFFF);
 				ambientlight = new THREE.AmbientLight(0x101010);
-				directlight = new THREE.DirectionalLight(0xFFFFFF, 1);
+				directlight = new THREE.DirectionalLight(0xFFFFFF, 0.4);
 				// lights from the top at half intensity (0.5)
 				
-				directlight.position.set(1, 1, 0).normalize();
+				ambientlight.position.set(1, 1, 0).normalize();
 				scene.add(pointlight);
 				scene.add(ambientlight);
 				scene.add(directlight);
@@ -152,6 +152,10 @@
 				mouseX = (event.clientX - windowHalfX);
 				mouseY = (event.clientY - windowHalfY);
 
+			}
+			function changeMaterial(colorHex, shini){
+				mesh.material.color.setHex(colorHex)
+				mesh.material.shininess = shini
 			}
 		</script>
 	</body>

@@ -95,7 +95,6 @@
 				// simple ball
 				texture = THREE.ImageUtils.loadTexture('textura/grass.jpg');
 				texture.neadsUpdate = true;
-				//texture.repeat.set(4, 2);
 				texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 				texture.anisotropy = 16;
 				sphere = new THREE.SphereGeometry(100, 32, 32);
@@ -176,12 +175,15 @@
 				mouseY = (event.clientY - windowHalfY);
 
 			}
+
 			function changeMaterial(colorHex, shini){
 
 				mesh.material.color.setHex(colorHex);
 				mesh.material.shininess = shini ;
 			}
+
 			function changeTexture(textureFile){
+
 				texture = THREE.ImageUtils.loadTexture(textureFile);
 				mesh.material.map = texture;
 				

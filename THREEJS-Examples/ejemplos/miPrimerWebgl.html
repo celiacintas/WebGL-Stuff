@@ -27,6 +27,10 @@
 		<a onclick="changeMaterial('0x0000bb', 100);">Mucho Brillo y Azul</a> |
 		<a onclick="changeMaterial('0xda30ff', 10);">Opaco y Rosado</a> |
 		<a onclick="changeMaterial('0x1fff58', 50);">Brillo y Verde</a> | <br/>
+		Textures: 
+		<a onclick="changeTexture('textura/lava.jpg');">Lava</a> |
+		<a onclick="changeMaterial('0xda30ff', 10);">Opaco y Rosado</a> |
+		<a onclick="changeMaterial('0x1fff58', 50);">Brillo y Verde</a> | <br/>
 		Timer:
 		<a onclick="speed = -0.002 ;">faster</a> |
 		<a onclick="speed = -0.00002 ;">slower</a> |<br/>
@@ -43,7 +47,7 @@
 
 			var container, stats;
 			var camera, scene, renderer, speed, mesh;
-			var lightmesh, pointlight, ambientlight, directlight;
+			var lightmesh, pointlight, otherpointlight, ambientlight, directlight;
 			var mouseX = 0, mouseY = 0;
 			
 			var windowHalfX = window.innerWidth / 2;
@@ -66,20 +70,26 @@
 				speed = -0.0002;
 
 				// lights 
-				pointlight = new THREE.PointLight(0xFFFFFF);
-				ambientlight = new THREE.AmbientLight(0x101010);
-				directlight = new THREE.DirectionalLight(0xFFFFFF, 0.4);
+				pointlight = new THREE.PointLight(0xFFFFFF, 0.4);
+				otherpointlight = new THREE.PointLight(0xFFFFFF);
+				ambientlight = new THREE.AmbientLight(0xFFFFFF);
+				//directlight = new THREE.DirectionalLight(0xFFFFFF, 0.4);
 				// lights from the top at half intensity (0.5)
 				
 				ambientlight.position.set(1, 1, 0).normalize();
 				scene.add(pointlight);
+				scene.add(otherpointlight);
 				scene.add(ambientlight);
-				scene.add(directlight);
+				//scene.add(directlight);
 
 				// light ball
 				lightmesh = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 8), new THREE.MeshPhongMaterial( {color: 0xFFAA00}));
+				otherlightmesh = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 8), new THREE.MeshPhongMaterial( {color: 0xFFAA00}));
 				lightmesh.position = pointlight.position; 
+				// an other light ball
+				otherlightmesh.position = otherpointlight.position; 
 				scene.add(lightmesh);
+				scene.add(otherlightmesh);
 
 				// simple ball
 				sphere = new THREE.SphereGeometry(100, 32, 32);
@@ -130,7 +140,8 @@
 
 				lightmesh.position.x = 1000 * Math.cos(timer);
 				lightmesh.position.z = 1000 * Math.sin(timer);
-
+				otherlightmesh.position.y = 1000 * Math.cos(timer);
+				otherlightmesh.position.z = 1000 * Math.cos(timer);
 				renderer.render(scene, camera);
 
 			}
@@ -155,8 +166,15 @@
 			}
 			function changeMaterial(colorHex, shini){
 
-				mesh.material.color.setHex(colorHex)
-				mesh.material.shininess = shini
+				mesh.material.color.setHex(colorHex);
+				mesh.material.shininess = shini ;
+			}
+
+			function changeTexture(textureFile){
+				texture = THREE.ImageUtils.loadTexture(textureFile, {}, render());
+				mesh.material.map = texture;
+				texture.needsUpdate = true;
+			
 			}
 		</script>
 	</body>

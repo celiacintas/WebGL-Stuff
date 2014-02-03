@@ -19,11 +19,11 @@
 	</head>
 	<body>
 		<div id="info">Simple lights, speed and materials settings<br/>
-        	Materials: 
+        	Materials:
 		<a onclick="changeMaterial('0x0000bb', 100);">Mucho Brillo y Azul</a> |
 		<a onclick="changeMaterial('0xda30ff', 10);">Opaco y Rosado</a> |
 		<a onclick="changeMaterial('0x1fff58', 50);">Brillo y Verde</a> | <br/>
-		Textures: 
+		Textures:
 		<a onclick="changeTexture('texturas/lava.jpg');">Lava</a> |
 		<a onclick="changeTexture('texturas/grass.jpg');">Cesped</a> |
 		<a onclick="changeTexture('texturas/metal.jpg');">Metal</a> |
@@ -33,26 +33,26 @@
 		<a onclick="speed = -0.00002 ;">slower</a> |<br/>
 		<a onclick="speed = -0.0002 ;">normal</a> |<br/>
 		</div>
-		
+
 		<div id="container"></div>
 		<div id="info"><a href="http://threejs.org" target="_blank">three.js</a> - my first demo</div>
 
-		<script src="../build/three.min.js"></script>
-		<script src="js/libs/stats.min.js"></script>
-		
+		<script src="/static/js/three.min.js"></script>
+		<script src="/static/js/libs/stats.min.js"></script>
+
 		<script>
 
 			var container, stats;
 			var camera, scene, renderer, speed;
 			var lightmesh, pointlight, otherpointlight, ambientlight, directlight;
 			var mouseX = 0, mouseY = 0;
-			var material, mesh, texture;	
+			var material, mesh, texture;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
-			
+
 			init();
 			animate();
-			
+
 
 			function init() {
 
@@ -60,19 +60,19 @@
 				scene = new THREE.Scene();
 				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 				camera.position.z = 500;
-				
+
 				scene.add(camera);
-	
+
 				// setting default speed
 				speed = -0.0002;
 
-				// lights 
+				// lights
 				pointlight = new THREE.PointLight(0xFFFFFF, 0.4);
 				otherpointlight = new THREE.PointLight(0xFFFFFF);
 				ambientlight = new THREE.AmbientLight(0xFFFFFF);
 				//directlight = new THREE.DirectionalLight(0xFFFFFF, 0.4);
 				// lights from the top at half intensity (0.5)
-				
+
 				ambientlight.position.set(1, 1, 0).normalize();
 				scene.add(pointlight);
 				scene.add(otherpointlight);
@@ -82,10 +82,10 @@
 				// light ball
 				lightmesh = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 8), new THREE.MeshPhongMaterial( {color: 0xFFAA00}));
 				otherlightmesh = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 8), new THREE.MeshPhongMaterial( {color: 0xFFAA00}));
-				lightmesh.position = pointlight.position; 
-				
+				lightmesh.position = pointlight.position;
+
 				// an other light ball
-				otherlightmesh.position = otherpointlight.position; 
+				otherlightmesh.position = otherpointlight.position;
 				scene.add(lightmesh);
 				scene.add(otherlightmesh);
 
@@ -100,7 +100,7 @@
 				addMesh(sphere, 1, -400, 0, 0, 0, 0, 0, material);
 				addMesh(sphere, 1, -400, 40, 0, 0, 0, 0, material);
 				addMesh(sphere, 1, -400, 40, 40, 0, 0, 0, material);
-				
+
 				// render
 				renderer = new THREE.WebGLRenderer({clearColor: 0x0a0a0a, clearAlpha: 1, antialias: true });
 				renderer.setSize(window.innerWidth, window.innerHeight);
@@ -118,9 +118,9 @@
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 				window.addEventListener('resize', onWindowResize, false);
 			}
-			
+
 			function addMesh(geometry, scale, x, y, z, rx, ry, rz, material){
-				
+
 				mesh = new THREE.Mesh(geometry, material);
 				mesh.scale.set(scale, scale, scale);
 				mesh.position.set(x, y, z);
@@ -138,7 +138,7 @@
 			}
 
 			function render() {
-	
+
 
 				var timer = speed * Date.now();
 
@@ -171,6 +171,7 @@
 
 				mouseX = (event.clientX - windowHalfX);
 				mouseY = (event.clientY - windowHalfY);
+				console.log(event.clientY, event.clientY);
 
 			}
 

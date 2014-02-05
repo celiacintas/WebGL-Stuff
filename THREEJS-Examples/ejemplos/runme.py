@@ -40,7 +40,7 @@ def kinect_simulator(qapp_args=None):
     if not qapp_args:
         qapp_args = []
     def value_changed(value):
-        data = {'mouseX': slider1.value(), 'mouseY': slider2.value()}
+        data = {'mouseX': int(slider1.value()), 'mouseY': int(slider2.value())}
         message = json.dumps(data)
         socket.send(message)
 
@@ -49,10 +49,12 @@ def kinect_simulator(qapp_args=None):
     win.setWindowTitle("Send events to kinect")
     layout = QHBoxLayout()
     slider1 = QSlider()
-    slider1.setMaximum(1000)
+    slider1.setMinimum(100)
+    slider1.setMaximum(600)
     layout.addWidget(slider1)
     slider2 = QSlider()
-    slider1.setMaximum(1000)
+    slider2.setMinimum(100)
+    slider2.setMaximum(600)
     layout.addWidget(slider2)
     slider1.valueChanged[int].connect(value_changed)
     slider2.valueChanged[int].connect(value_changed)

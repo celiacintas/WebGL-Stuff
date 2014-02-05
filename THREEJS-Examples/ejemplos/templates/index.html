@@ -116,7 +116,7 @@
 				stats.domElement.style.top = '0px';
 				container.appendChild(stats.domElement);
 
-				document.addEventListener('mousemove', onDocumentMouseMove, false);
+				//document.addEventListener('mousemove', onDocumentMouseMove, false);
 				window.addEventListener('resize', onWindowResize, false);
 
 
@@ -177,7 +177,7 @@
 				return;
 				mouseX = (event.clientX - windowHalfX);
 				mouseY = (event.clientY - windowHalfY);
-				console.log(event.clientY, event.clientY);
+				console.log(event.clientX, event.clientY);
 
 			}
 
@@ -195,10 +195,10 @@
 
 
 			function updateReceived (event) {
-				var data = event.data;
+				var data = JSON.parse(event.data);
 				console.log(data);
-				mouseX = (data.clientX - windowHalfX);
-				mouseY = (data.clientY - windowHalfY);
+				mouseX = (data.mouseX - windowHalfX);
+				mouseY = (data.mouseY - windowHalfY);
 			}
 
 

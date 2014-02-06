@@ -11,8 +11,8 @@ import math
 import json
 # Debugger
 from werkzeug.serving import run_with_reloader
-#
 from multiprocessing import Process
+from myhandkinect import Kinect
 
 gevent.monkey.patch_all()
 
@@ -25,44 +25,10 @@ app.context = zmq.Context()
 
 DIRECCION_PUBLICADOR = 'tcp://127.0.0.1:5555'
 
-def kinect_simulator(qapp_args=None):
-    from PyQt4.QtGui import (
-                             QApplication,
-                             QWidget, QSpinBox, QHBoxLayout,
-                             QSlider, QPushButton)
-    import json
-    import zmq
-    ctx = zmq.Context()
-    socket = ctx.socket(zmq.PUB)
-    socket.bind(DIRECCION_PUBLICADOR)
-
-    slider1, slider2 = None, None
-    if not qapp_args:
-        qapp_args = []
-    def value_changed(value):
-        data = {'mouseX': int(slider1.value()), 'mouseY': int(slider2.value())}
-        message = json.dumps(data)
-        socket.send(message)
-
-    app = QApplication(qapp_args)
-    win = QWidget()
-    win.setWindowTitle("Send events to kinect")
-    layout = QHBoxLayout()
-    slider1 = QSlider()
-    slider1.setMinimum(100)
-    slider1.setMaximum(600)
-    layout.addWidget(slider1)
-    slider2 = QSlider()
-    slider2.setMinimum(100)
-    slider2.setMaximum(600)
-    layout.addWidget(slider2)
-    slider1.valueChanged[int].connect(value_changed)
-    slider2.valueChanged[int].connect(value_changed)
-    win.setLayout(layout)
-    win.show()
-
-    return app.exec_()
-
+def kinect_simulator():
+    myKinect = Kinect(DIRECCION_PUBLICADOR)
+    return myKinect.kinect_loop()    
+    
 def generador_de_eventos():
     '''Una función que envía acutalizaciones usando el protocolo de
     eventos emitidos por el servidor (SSE). La directiva yield retorna
